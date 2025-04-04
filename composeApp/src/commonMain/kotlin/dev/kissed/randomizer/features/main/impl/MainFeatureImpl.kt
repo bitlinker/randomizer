@@ -22,7 +22,7 @@ internal class MainFeatureImpl(
             currentChosen = false,
             itemsHidden = emptySet(),
             page = MainFeature.Page.WHEEL,
-        )    
+        )
     }
 ) {
     override fun dispatch(action: Action) {
@@ -77,14 +77,13 @@ internal class MainFeatureImpl(
         private val INITIAL_INPUT = (1..10).joinToString(separator = "\n") { it.toString() }
 
         private val CHEATCODE = "iddqd"
-        
+
         private val ALPHA_TEAM_HARDCODE = """
             Денис
-            Женя
-            Ваня С.
-            Ваня М.
-            Эмиль
             Егор
+            Ваня
+            Женя
+            Эмиль
             Булат
         """.trimIndent()
 
@@ -97,7 +96,7 @@ internal class MainFeatureImpl(
             Color(0xFF5C6BC0), // Синий (vibrant pastel indigo)
             Color(0xFFAB47BC), // Фиолетовый (vibrant pastel violet)
         )
-        
+
         private fun parse(text: String): List<Member> {
             val parsed = text.split("\n")
                 .map { it.trim() }
@@ -110,4 +109,3 @@ internal class MainFeatureImpl(
         }
     }
 }
-
