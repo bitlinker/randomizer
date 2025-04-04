@@ -51,7 +51,7 @@ internal class MainFeatureImpl(
 
             is Action.InputChanged -> {
                 if (action.text.contains(CHEATCODE)) {
-                    changeInput(ALPHA_TEAM_HARDCODE)
+                    changeInput(FAHRENHEIT_TEAM_HARDCODE)
                 } else {
                     changeInput(action.text)
                 }
@@ -78,7 +78,7 @@ internal class MainFeatureImpl(
 
         private val CHEATCODE = "iddqd"
 
-        private val ALPHA_TEAM_HARDCODE = """
+        private val FAHRENHEIT_TEAM_HARDCODE = """
             Денис
             Егор
             Ваня
