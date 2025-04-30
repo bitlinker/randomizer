@@ -12,7 +12,7 @@ internal class MainFeatureImpl(
     private val inputRepository: InputRepository,
 ) : MainFeature, BaseFeatureImpl<State, Action>(
     initialState = run {
-        val initialInput = inputRepository.get() ?: INITIAL_INPUT
+        val initialInput = inputRepository.getCurrent() ?: INITIAL_INPUT
         val itemsList = parse(initialInput)
         State(
             input = initialInput,
@@ -50,17 +50,23 @@ internal class MainFeatureImpl(
             }
 
             is Action.InputChanged -> {
-                if (action.text.contains(CHEATCODE)) {
-                    changeInput(FAHRENHEIT_TEAM_HARDCODE)
-                } else {
-                    changeInput(action.text)
+                changeInput(action.text)
+            }
+
+            is Action.Save -> {
+                inputRepository.saveDefault(state.input)
+            }
+
+            is Action.Restore -> {
+                inputRepository.getDefault()?.let {
+                    changeInput(it)
                 }
             }
         }
     }
 
     private fun changeInput(newInput: String) {
-        inputRepository.save(newInput)
+        inputRepository.saveCurrent(newInput)
         val newItems = parse(newInput)
         state = state.copy(
             input = newInput,
@@ -75,17 +81,6 @@ internal class MainFeatureImpl(
     companion object {
 
         private val INITIAL_INPUT = (1..10).joinToString(separator = "\n") { it.toString() }
-
-        private val CHEATCODE = "iddqd"
-
-        private val FAHRENHEIT_TEAM_HARDCODE = """
-            Денис
-            Егор
-            Ваня
-            Женя
-            Эмиль
-            Булат
-        """.trimIndent()
 
         private val colors: List<Color> = listOf(
             Color(0xFFFF5252), // Красный (vibrant pastel red)

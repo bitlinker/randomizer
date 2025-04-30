@@ -35,6 +35,8 @@ interface MainFeature : BaseFeature<MainFeature.State, MainFeature.Action> {
         data object Next : Action
         data object NextAnimationFinished : Action
         data class InputChanged(val text: String) : Action
+        data object Save: Action
+        data object Restore: Action
     }
     
     companion object {

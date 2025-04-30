@@ -1,11 +1,11 @@
 package dev.kissed.randomizer.features.main.api.ui
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -28,7 +28,6 @@ import dev.kissed.randomizer.features.main.api.MainFeature
 import dev.kissed.randomizer.features.main.impl.ui.pages.FortuneWheelPageUI
 import dev.kissed.randomizer.features.main.impl.ui.pages.SimplePageUI
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Unit) {
     Column(
@@ -43,13 +42,10 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                 .padding(top = 50.dp),
             fontSize = 20.sp,
         )
-        Button(
-            onClick = {
-                dispatch(MainFeature.Action.Next)
-            },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
-        ) {
-            Text("Next")
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            AppButton(text = "Restore") { dispatch(MainFeature.Action.Restore) }
+            AppButton(text = "Save") { dispatch(MainFeature.Action.Save) }
+            AppButton(text = "Next") { dispatch(MainFeature.Action.Next) }
         }
         AnimatedContent(state.page) {
             Box {
@@ -100,5 +96,15 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                 Text("$idx: ${item.name}")
             }
         }
+    }
+}
+
+@Composable
+private fun AppButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+    ) {
+        Text(text)
     }
 }

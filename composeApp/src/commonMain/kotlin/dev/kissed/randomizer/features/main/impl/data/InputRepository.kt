@@ -14,15 +14,24 @@ class InputRepository @Inject constructor(
     private val settings: Settings,
 ) {
 
-    fun save(input: String) {
-        settings.putString(KEY_INPUT, input)
+    fun saveCurrent(input: String) {
+        settings.putString(KEY_INPUT_CURRENT, input)
     }
 
-    fun get(): String? {
-        return settings[KEY_INPUT]
+    fun getCurrent(): String? {
+        return settings[KEY_INPUT_CURRENT]
+    }
+
+    fun saveDefault(input: String) {
+        settings.putString(KEY_INPUT_DEFAULT, input)
+    }
+
+    fun getDefault(): String? {
+        return settings[KEY_INPUT_DEFAULT]
     }
 
     companion object {
-        private const val KEY_INPUT = "input"
+        private const val KEY_INPUT_CURRENT = "input_current"
+        private const val KEY_INPUT_DEFAULT = "input_default"
     }
 }
