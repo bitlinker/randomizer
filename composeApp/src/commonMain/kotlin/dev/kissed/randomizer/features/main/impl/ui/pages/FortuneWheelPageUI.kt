@@ -44,8 +44,10 @@ import dev.kissed.randomizer.model.Member
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import randomizer.composeapp.generated.resources.Res
 import randomizer.composeapp.generated.resources.spiral
+import randomizer.composeapp.generated.resources.title_porridge
 import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.random.Random
@@ -151,6 +153,7 @@ internal fun BoxScope.FortuneWheelPageUI(
             }
         }
 
+        val velocityAlertText = stringResource(Res.string.title_porridge)
         Box(
             Modifier
                 .matchParentSize()
@@ -208,7 +211,7 @@ internal fun BoxScope.FortuneWheelPageUI(
 
                             velocityAbs > VELOCITY_THRESHOLD_NEXT_LOW -> {
                                 scope.launch {
-                                    alertText = "Кашу чтоли не ел? Крути сильнее!"
+                                    alertText = velocityAlertText
                                     delay(1000)
                                     alertText = ""
                                 }

@@ -6,10 +6,6 @@ import dev.kissed.randomizer.features.app.api.AppFeature
 import dev.kissed.randomizer.features.main.api.MainFeature
 import dev.kissed.randomizer.features.main.impl.data.InputRepository
 import me.tatarka.inject.annotations.Inject
-import me.tatarka.inject.annotations.Scope
-
-@Scope
-annotation class AppFeatureScope
 
 @AppComponentScope
 internal class AppFeatureImpl @Inject constructor(

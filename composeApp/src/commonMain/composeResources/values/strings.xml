@@ -1,0 +1,9 @@
+<resources>
+    <string name="title_main">Колесо закрутится - ситдаун замутится</string>
+    <string name="title_porridge">Кашу чтоли не ел? Крути сильнее!</string>
+    <string name="title_input">Список:</string>
+    <string name="title_output">Сейчас:</string>
+    <string name="btn_next">Далее</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_restore">Загрузить</string>
+</resources>

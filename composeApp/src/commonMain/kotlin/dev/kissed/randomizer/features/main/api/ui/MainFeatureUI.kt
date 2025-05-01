@@ -27,6 +27,14 @@ import androidx.compose.ui.unit.sp
 import dev.kissed.randomizer.features.main.api.MainFeature
 import dev.kissed.randomizer.features.main.impl.ui.pages.FortuneWheelPageUI
 import dev.kissed.randomizer.features.main.impl.ui.pages.SimplePageUI
+import org.jetbrains.compose.resources.stringResource
+import randomizer.composeapp.generated.resources.Res
+import randomizer.composeapp.generated.resources.btn_next
+import randomizer.composeapp.generated.resources.btn_restore
+import randomizer.composeapp.generated.resources.btn_save
+import randomizer.composeapp.generated.resources.title_input
+import randomizer.composeapp.generated.resources.title_main
+import randomizer.composeapp.generated.resources.title_output
 
 @Composable
 fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Unit) {
@@ -37,15 +45,15 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            "Колесо закрутится - ситдаун замутится",
+            stringResource(Res.string.title_main),
             Modifier
                 .padding(top = 50.dp),
             fontSize = 20.sp,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            AppButton(text = "Restore") { dispatch(MainFeature.Action.Restore) }
-            AppButton(text = "Save") { dispatch(MainFeature.Action.Save) }
-            AppButton(text = "Next") { dispatch(MainFeature.Action.Next) }
+            AppButton(text = stringResource(Res.string.btn_restore)) { dispatch(MainFeature.Action.Restore) }
+            AppButton(text = stringResource(Res.string.btn_save)) { dispatch(MainFeature.Action.Save) }
+            AppButton(text = stringResource(Res.string.btn_next)) { dispatch(MainFeature.Action.Next) }
         }
         AnimatedContent(state.page) {
             Box {
@@ -67,7 +75,8 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                         val items = state.itemsList.filterNot { it.id in state.itemsHidden }
                         SimplePageUI(
                             items,
-                            currentIdx = items.indexOfFirst { it.id == state.currentId }.takeIf { it >= 0 },
+                            currentIdx = items.indexOfFirst { it.id == state.currentId }
+                                .takeIf { it >= 0 },
                             onNextAniationFinished = {
                                 dispatch(MainFeature.Action.NextAnimationFinished)
                             }
@@ -77,7 +86,7 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
             }
         }
 
-        Text("Input:", fontWeight = FontWeight.ExtraBold)
+        Text(stringResource(Res.string.title_input), fontWeight = FontWeight.ExtraBold)
         var itemsFieldState by remember(state.input) { mutableStateOf(state.input) }
         TextField(
             value = itemsFieldState,
@@ -87,7 +96,7 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
             },
         )
 
-        Text("Output:", fontWeight = FontWeight.ExtraBold)
+        Text(stringResource(Res.string.title_output), fontWeight = FontWeight.ExtraBold)
         Column(
             modifier = Modifier.widthIn(min = 100.dp),
             horizontalAlignment = Alignment.Start,
