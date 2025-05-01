@@ -71,6 +71,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.russhwolf.settings)
             implementation(libs.tatarka.kotlininject.runtimekmp)
+            implementation(libs.hypnoticcanvas.core)
+            implementation(libs.hypnoticcanvas.shaders)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

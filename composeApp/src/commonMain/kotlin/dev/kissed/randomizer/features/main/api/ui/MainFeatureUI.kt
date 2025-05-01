@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mikepenz.hypnoticcanvas.shaderBackground
+import com.mikepenz.hypnoticcanvas.shaders.GradientFlow
 import dev.kissed.randomizer.features.main.api.MainFeature
 import dev.kissed.randomizer.features.main.impl.ui.pages.FortuneWheelPageUI
 import dev.kissed.randomizer.features.main.impl.ui.pages.SimplePageUI
@@ -36,11 +38,13 @@ import randomizer.composeapp.generated.resources.title_input
 import randomizer.composeapp.generated.resources.title_main
 import randomizer.composeapp.generated.resources.title_output
 
+
 @Composable
 fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Unit) {
     Column(
         Modifier.fillMaxSize()
-            .background(Color.White),
+            .shaderBackground(GradientFlow)
+            .background(Color.White.copy(alpha = 0.5F)),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -112,7 +116,8 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
 private fun AppButton(text: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+        elevation = ButtonDefaults.elevation(10.dp),
     ) {
         Text(text)
     }
