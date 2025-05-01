@@ -50,11 +50,7 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                 .padding(top = 50.dp),
             fontSize = 20.sp,
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            AppButton(text = stringResource(Res.string.btn_restore)) { dispatch(MainFeature.Action.Restore) }
-            AppButton(text = stringResource(Res.string.btn_save)) { dispatch(MainFeature.Action.Save) }
-            AppButton(text = stringResource(Res.string.btn_next)) { dispatch(MainFeature.Action.Next) }
-        }
+        AppButton(text = stringResource(Res.string.btn_next)) { dispatch(MainFeature.Action.Next) }
         AnimatedContent(state.page) {
             Box {
                 when (it) {
@@ -95,6 +91,10 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                 dispatch(MainFeature.Action.InputChanged(it))
             },
         )
+        Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+            AppButton(text = stringResource(Res.string.btn_restore)) { dispatch(MainFeature.Action.Restore) }
+            AppButton(text = stringResource(Res.string.btn_save)) { dispatch(MainFeature.Action.Save) }
+        }
 
         Text(stringResource(Res.string.title_output), fontWeight = FontWeight.ExtraBold)
         Column(
