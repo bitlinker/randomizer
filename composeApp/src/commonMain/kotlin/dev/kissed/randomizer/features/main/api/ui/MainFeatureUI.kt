@@ -34,10 +34,10 @@ import randomizer.composeapp.generated.resources.Res
 import randomizer.composeapp.generated.resources.btn_next
 import randomizer.composeapp.generated.resources.btn_restore
 import randomizer.composeapp.generated.resources.btn_save
+import randomizer.composeapp.generated.resources.btn_start
 import randomizer.composeapp.generated.resources.title_input
 import randomizer.composeapp.generated.resources.title_main
 import randomizer.composeapp.generated.resources.title_output
-
 
 @Composable
 fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Unit) {
@@ -54,7 +54,17 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
                 .padding(top = 50.dp),
             fontSize = 20.sp,
         )
-        AppButton(text = stringResource(Res.string.btn_next)) { dispatch(MainFeature.Action.Next) }
+
+        AppButton(
+            text = stringResource(
+                when {
+                    state.currentPos == null -> Res.string.btn_start
+                    else -> Res.string.btn_next
+                }
+            ),
+            enabled = (state.currentPos ?: 0) < state.itemsList.size - 1,
+            onClick = { dispatch(MainFeature.Action.Next) },
+        )
         AnimatedContent(state.page) {
             Box {
                 when (it) {
@@ -113,11 +123,12 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
 }
 
 @Composable
-private fun AppButton(text: String, onClick: () -> Unit) {
+private fun AppButton(text: String, enabled: Boolean = true, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
         elevation = ButtonDefaults.elevation(10.dp),
+        enabled = enabled,
     ) {
         Text(text)
     }
