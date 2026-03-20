@@ -1,15 +1,16 @@
 [versions]
-agp = "8.6.1"
-android-compileSdk = "35"
+agp = "8.13.2"
+android-compileSdk = "36"
 android-minSdk = "24"
-android-targetSdk = "35"
-androidx-activityCompose = "1.10.1"
-compose-plugin = "1.7.3"
-kotlin = "2.1.20"
-kotlininject = "0.7.1"
-ksp = "2.1.20-2.0.0"
-settings = "1.1.1"
-hypnoticcanvas = "0.3.0"
+android-targetSdk = "36"
+androidx-activityCompose = "1.13.0"
+material-icons = "1.7.3"
+compose-plugin = "1.10.2"
+kotlin = "2.3.20"
+kotlininject = "0.9.0"
+ksp = "2.3.6"
+settings = "1.3.0"
+hypnoticcanvas = "0.4.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -18,6 +19,8 @@ tatarka-kotlininject-compilerksp = { module = "me.tatarka.inject:kotlin-inject-c
 tatarka-kotlininject-runtimekmp = { module = "me.tatarka.inject:kotlin-inject-runtime-kmp", version.ref = "kotlininject" }
 hypnoticcanvas-core = { module = "com.mikepenz.hypnoticcanvas:hypnoticcanvas", version.ref = "hypnoticcanvas" }
 hypnoticcanvas-shaders = { module = "com.mikepenz.hypnoticcanvas:hypnoticcanvas-shaders", version.ref = "hypnoticcanvas" }
+material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icons" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

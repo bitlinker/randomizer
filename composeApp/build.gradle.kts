@@ -23,10 +23,7 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
+                    static(project.projectDir.path)
                 }
             }
         }
@@ -69,6 +66,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.material.icons)
             implementation(libs.russhwolf.settings)
             implementation(libs.tatarka.kotlininject.runtimekmp)
             implementation(libs.hypnoticcanvas.core)
