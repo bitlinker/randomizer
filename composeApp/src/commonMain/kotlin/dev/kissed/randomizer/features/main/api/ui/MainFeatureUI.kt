@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikepenz.hypnoticcanvas.shaderBackground
 import com.mikepenz.hypnoticcanvas.shaders.GradientFlow
+import dev.kissed.randomizer.common.ui.glitchEffect
 import dev.kissed.randomizer.features.main.api.MainFeature
 import dev.kissed.randomizer.features.main.impl.ui.pages.FortuneWheelPageUI
 import dev.kissed.randomizer.features.main.impl.ui.pages.SimplePageUI
@@ -64,6 +66,11 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
             ),
             enabled = (state.currentPos ?: 0) < state.itemsList.size - 1,
             onClick = { dispatch(MainFeature.Action.Next) },
+            modifier = Modifier.glitchEffect(
+                isEnabled = state.currentPos != null,
+                key = state.currentPos,
+                glitchColors = remember { listOf(Color.Cyan, Color.Yellow, Color.Magenta) }
+            )
         )
         AnimatedContent(state.page) {
             Box {
@@ -123,12 +130,18 @@ fun MainFeatureUI(state: MainFeature.State, dispatch: (MainFeature.Action) -> Un
 }
 
 @Composable
-private fun AppButton(text: String, enabled: Boolean = true, onClick: () -> Unit) {
+private fun AppButton(
+    text: String,
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
         elevation = ButtonDefaults.elevation(10.dp),
         enabled = enabled,
+        modifier = modifier,
     ) {
         Text(text)
     }
