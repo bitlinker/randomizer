@@ -41,7 +41,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.kissed.common.util.toFloat
 import dev.kissed.randomizer.features.main.impl.ui.pages.Line.Companion.intersection
 import dev.kissed.randomizer.model.Member
 import kotlinx.coroutines.delay
@@ -405,4 +404,8 @@ class Line(a: Float, b: Float, c: Float) {
             return point
         }
     }
+}
+
+private fun Boolean.toFloat(): Float {
+    return if (this) +1f else -1f
 }
