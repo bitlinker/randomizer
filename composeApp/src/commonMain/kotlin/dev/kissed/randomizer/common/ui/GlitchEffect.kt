@@ -28,7 +28,7 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 @Composable
-fun Modifier.glitchEffect(
+internal fun Modifier.glitchEffect(
     key: Any? = null,
     glitchColors: List<Color>,
     slices: Int = 20,

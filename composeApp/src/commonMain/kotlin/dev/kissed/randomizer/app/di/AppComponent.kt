@@ -1,26 +1,13 @@
 package dev.kissed.randomizer.app.di
 
-import com.russhwolf.settings.Settings
-import dev.kissed.randomizer.features.app.api.AppFeature
-import dev.kissed.randomizer.features.app.impl.AppFeatureImpl
-import me.tatarka.inject.annotations.Component
-import me.tatarka.inject.annotations.Provides
-import me.tatarka.inject.annotations.Scope
+import dev.kissed.randomizer.app.navigation.AppNavigator
+import dev.kissed.randomizer.features.main.presentation.MainScreenViewModel
+import dev.kissed.randomizer.features.staffedit.presentation.StaffEditScreenViewModel
+import dev.kissed.randomizer.features.stafflist.presentation.StaffScreenViewModel
 
-@Scope
-annotation class AppComponentScope
-
-@Component
-@AppComponentScope
-internal abstract class AppComponent {
-
-    abstract fun appFeature(): AppFeature
-
-    val AppFeatureImpl.bind: AppFeature
-        @Provides get() = this
-
-    @Provides
-    protected fun settings(): Settings {
-        return Settings()
-    }
+interface AppComponent {
+    val appNavigator: AppNavigator
+    fun mainScreenViewModel(): MainScreenViewModel
+    fun staffScreenViewModel(): StaffScreenViewModel
+    val staffEditScreenViewModelFactory: StaffEditScreenViewModel.Factory
 }

@@ -1,9 +1,15 @@
 package dev.kissed.randomizer.model
 
-import androidx.compose.ui.graphics.Color
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Member(
     val id: Int,
     val name: String,
-    val color: Color,
-)
+    val colorInt: Int,
+    val isEnabled: Boolean,
+) {
+    companion object {
+        const val EMPTY_ID = -1
+    }
+}

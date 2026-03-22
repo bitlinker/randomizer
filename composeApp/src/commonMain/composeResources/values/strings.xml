@@ -1,10 +1,15 @@
 <resources>
-    <string name="title_main">Колесо закрутится - ситдаун замутится</string>
-    <string name="title_porridge">Кашу чтоли не ел? Крути сильнее!</string>
-    <string name="title_input">Список:</string>
-    <string name="title_output">Сейчас:</string>
-    <string name="btn_start">Начать</string>
-    <string name="btn_next">Далее</string>
-    <string name="btn_save">Сохранить</string>
-    <string name="btn_restore">Загрузить</string>
+    <string name="screen_main_title">Колесо закрутится - ситдаун замутится</string>
+    <string name="screen_main_title_porridge">Кашу чтоли не ел? Крути сильнее!</string>
+    <string name="screen_main_title_output">Сейчас:</string>
+    <string name="screen_main_btn_start">Начать</string>
+    <string name="screen_main_btn_next">Далее</string>
+    <string name="screen_main_btn_reset">Сборос</string>
+    <string name="screen_main_list_empty_title">Тут никого нет</string>
+    <string name="screen_main_list_empty_button_title">Настроить</string>
+    <string name="screen_staff_title">Стафф</string>
+    <string name="screen_staff_edit_title">Редактирование</string>
+    <string name="screen_staff_edit_name_title">Имя:</string>
+    <string name="screen_staff_edit_color_title">Цвет:</string>
+    <string name="screen_staff_edit_enabled_title">Присутствует</string>
 </resources>
