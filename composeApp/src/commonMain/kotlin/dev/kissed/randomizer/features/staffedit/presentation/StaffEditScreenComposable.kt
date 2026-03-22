@@ -135,10 +135,7 @@ private fun StaffEditPalette(
         horizontalArrangement = Arrangement.spacedBy(Dimens.dp8),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        items(
-            items = Palette.colors,
-            key = { it.value }
-        ) { color ->
+        items(items = Palette.colors) { color ->
             ColorViewComposable(
                 color = color,
                 isSelected = curColor == color,

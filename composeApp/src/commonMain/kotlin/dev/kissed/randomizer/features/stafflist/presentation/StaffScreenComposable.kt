@@ -112,7 +112,6 @@ private fun StaffList(
 private fun StaffItem(
     item: Member,
     dispatcher: StaffScreenDispatcher,
-    showCheckbox: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -130,12 +129,10 @@ private fun StaffItem(
                 )
                 .padding(horizontal = Dimens.dp8)
         ) {
-            if (showCheckbox) {
-                Checkbox(
-                    checked = item.isEnabled,
-                    onCheckedChange = { dispatcher(StaffScreenAction.ItemEnabledClicked(item)) }
-                )
-            }
+            Checkbox(
+                checked = item.isEnabled,
+                onCheckedChange = { dispatcher(StaffScreenAction.ItemEnabledClicked(item)) }
+            )
             ColorViewComposable(color = Color(item.colorInt))
             Text(item.name)
         }

@@ -33,53 +33,49 @@ fun App(appComponent: AppComponent) {
     val backStack by navigator.stack.collectAsState()
 
     MaterialTheme {
-        Box(
+        NavDisplay(
             modifier = Modifier
                 .fillMaxSize()
                 .shaderBackground(GradientFlow)
                 .background(Color.White.copy(alpha = 0.5F)),
-        ) {
+            backStack = backStack,
+            onBack = { navigator.pop() },
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
+            ),
+            transitionSpec = {
+                slideInHorizontally(initialOffsetX = { it }) togetherWith
+                        slideOutHorizontally(targetOffsetX = { -it })
+            },
+            popTransitionSpec = {
+                slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                        slideOutHorizontally(targetOffsetX = { it })
+            },
+            predictivePopTransitionSpec = {
+                slideInHorizontally(initialOffsetX = { -it }) togetherWith
+                        slideOutHorizontally(targetOffsetX = { it })
+            },
+            entryProvider = { key ->
+                when (key) {
+                    is AppScreen.Main -> NavEntry(key) {
+                        val viewModel = viewModel { appComponent.mainScreenViewModel() }
+                        MainScreenComposable(viewModel)
+                    }
 
-            NavDisplay(
-                backStack = backStack,
-                onBack = { navigator.pop() },
-                entryDecorators = listOf(
-                    rememberSaveableStateHolderNavEntryDecorator(),
-                    rememberViewModelStoreNavEntryDecorator()
-                ),
-                transitionSpec = {
-                    slideInHorizontally(initialOffsetX = { it }) togetherWith
-                            slideOutHorizontally(targetOffsetX = { -it })
-                },
-                popTransitionSpec = {
-                    slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                            slideOutHorizontally(targetOffsetX = { it })
-                },
-                predictivePopTransitionSpec = {
-                    slideInHorizontally(initialOffsetX = { -it }) togetherWith
-                            slideOutHorizontally(targetOffsetX = { it })
-                },
-                entryProvider = { key ->
-                    when (key) {
-                        is AppScreen.Main -> NavEntry(key) {
-                            val viewModel = viewModel { appComponent.mainScreenViewModel() }
-                            MainScreenComposable(viewModel)
-                        }
+                    is AppScreen.Staff -> NavEntry(key) {
+                        val viewModel = viewModel { appComponent.staffScreenViewModel() }
+                        StaffScreenComposable(viewModel)
+                    }
 
-                        is AppScreen.Staff -> NavEntry(key) {
-                            val viewModel = viewModel { appComponent.staffScreenViewModel() }
-                            StaffScreenComposable(viewModel)
+                    is AppScreen.StaffEdit -> NavEntry(key) {
+                        val viewModel = viewModel {
+                            appComponent.staffEditScreenViewModelFactory.create(key.member)
                         }
-
-                        is AppScreen.StaffEdit -> NavEntry(key) {
-                            val viewModel = viewModel {
-                                appComponent.staffEditScreenViewModelFactory.create(key.member)
-                            }
-                            StaffEditScreenComposable(viewModel)
-                        }
+                        StaffEditScreenComposable(viewModel)
                     }
                 }
-            )
-        }
+            }
+        )
     }
 }
