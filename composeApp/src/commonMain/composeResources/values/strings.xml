@@ -4,7 +4,7 @@
     <string name="screen_main_title_output">Сейчас:</string>
     <string name="screen_main_btn_start">Начать</string>
     <string name="screen_main_btn_next">Далее</string>
-    <string name="screen_main_btn_reset">Сборос</string>
+    <string name="screen_main_btn_reset">Сброс</string>
     <string name="screen_main_list_empty_title">Тут никого нет</string>
     <string name="screen_main_list_empty_button_title">Настроить</string>
     <string name="screen_staff_title">Стафф</string>
