@@ -1,54 +1,79 @@
 package dev.kissed.randomizer.data
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.russhwolf.settings.Settings
+import dev.kissed.randomizer.Staff
 import dev.kissed.randomizer.app.di.AppComponentScope
 import dev.kissed.randomizer.model.Member
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import me.tatarka.inject.annotations.Inject
 
 @AppComponentScope
 class StaffRepository @Inject constructor(
-    private val settings: Settings,
+    private val appDatabase: AppDatabase,
 ) {
-    // TODO: sqldelight
+    private val settings = Settings()
 
-    private val mutableMembers = MutableStateFlow(readSettings() ?: emptyList())
+    init {
+        GlobalScope.launch {
+            migrateFromSettingsOnce()
+        }
+    }
 
-    private val mutex = Mutex()
+    private suspend fun staffQueries() = appDatabase.database().staffQueries
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun get(): Flow<List<Member>> {
-        return mutableMembers
+        return suspend { staffQueries() }
+            .asFlow()
+            .flatMapLatest { queries ->
+                queries.selectAll()
+                    .asFlow()
+                    .mapToList(Dispatchers.Default)
+                    .map { list ->
+                        list.map { it.fromEntity() }
+                    }
+            }
     }
 
     suspend fun delete(member: Member) {
-        withContext(Dispatchers.Default) {
-            mutex.withLock {
-                mutableMembers.value = mutableMembers.value
-                    .filter { it.id != member.id }
-                writeSettings(mutableMembers.value)
-            }
-        }
+        require(member.id != Member.EMPTY_ID)
+        staffQueries().delete(member.id)
     }
 
     suspend fun addOrUpdate(member: Member) {
-        withContext(Dispatchers.Default) {
-            mutex.withLock {
-                if (member.id == Member.EMPTY_ID) {
-                    mutableMembers.value += member.copy(
-                        id = (mutableMembers.value.maxOfOrNull { it.id } ?: 0) + 1)
-                } else {
-                    mutableMembers.value = mutableMembers.value
-                        .map { if (it.id == member.id) member else it }
-                }
-                writeSettings(mutableMembers.value)
-            }
+        if (member.id == Member.EMPTY_ID) {
+            staffQueries().insert(
+                name = member.name,
+                color = member.colorInt.toLong(),
+                isEnabled = member.isEnabled
+            )
+        } else {
+            staffQueries().update(
+                name = member.name,
+                color = member.colorInt.toLong(),
+                isEnabled = member.isEnabled,
+                id = member.id,
+            )
         }
+    }
+
+    private suspend fun migrateFromSettingsOnce() {
+        // Fill for debug
+        //writeSettings(listOf(Member(id=555, name = "settings", colorInt = 0, isEnabled = true)))
+        readSettings()?.forEach { item ->
+            addOrUpdate(item.copy(id = Member.EMPTY_ID))
+        }
+        writeSettings(emptyList())
     }
 
     private fun readSettings(): List<Member>? {
@@ -68,4 +93,13 @@ class StaffRepository @Inject constructor(
             ignoreUnknownKeys = true
         }
     }
+}
+
+private fun Staff.fromEntity(): Member {
+    return Member(
+        id = id,
+        name = name,
+        colorInt = color.toInt(),
+        isEnabled = isEnabled,
+    )
 }

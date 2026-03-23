@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -43,6 +44,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.sqlDelight.android)
         }
 
         commonMain.dependencies {
@@ -53,7 +55,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.material.icons)
-            implementation(libs.russhwolf.settings)
             implementation(libs.tatarka.kotlininject.runtimekmp)
             implementation(libs.hypnoticcanvas.core)
             implementation(libs.hypnoticcanvas.shaders)
@@ -62,11 +63,20 @@ kotlin {
             implementation(libs.jetbrains.viewmodel)
             implementation(libs.kotlinx.serialization.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.sqlDelight.coroutines)
+            implementation(libs.russhwolf.settings)
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.sqlDelight.jvm)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.sqlDelight.js)
+            implementation(npm("@sqlite.org/sqlite-wasm", libs.versions.sqliteWasm.get()))
+            implementation(devNpm("copy-webpack-plugin", libs.versions.copyWebpackPlugin.get()))
         }
     }
 
@@ -143,6 +153,15 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "dev.kissed.randomizer"
             packageVersion = "1.0.0"
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("dev.kissed.randomizer")
+            generateAsync.set(true)
         }
     }
 }

@@ -36,3 +36,5 @@ sign.properties
 ## windows stuff
 Thumbs.db
 
+#db
+composeApp/database.sqlite3

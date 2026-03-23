@@ -10,4 +10,14 @@ interface AppComponent {
     fun mainScreenViewModel(): MainScreenViewModel
     fun staffScreenViewModel(): StaffScreenViewModel
     val staffEditScreenViewModelFactory: StaffEditScreenViewModel.Factory
+
+    companion object {
+        fun create(
+            sqlDelightDriverFactory: SqlDelightDriverFactory,
+        ): AppComponent {
+            return AppComponentImpl::class.create(
+                sqlDelightDriverFactory = sqlDelightDriverFactory
+            )
+        }
+    }
 }
