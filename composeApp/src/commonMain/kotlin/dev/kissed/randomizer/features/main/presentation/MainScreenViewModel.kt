@@ -20,14 +20,14 @@ class MainScreenViewModel @Inject constructor(
 
     data class State(
         val itemsList: List<Member>,
-        val order: List<Int>,
-        val itemsHidden: Set<Int>,
+        val order: List<Long>,
+        val itemsHidden: Set<Long>,
         val currentPos: Int?,
         val currentChosen: Boolean,
     ) {
-        private val itemsMap: Map<Int, Member> = itemsList.associateBy { it.id }
+        private val itemsMap: Map<Long, Member> = itemsList.associateBy { it.id }
 
-        val currentId: Int? = currentPos?.let { order[currentPos] }
+        val currentId: Long? = currentPos?.let { order[currentPos] }
 
         val chosen: List<Member> = currentPos?.let {
             order.take(if (currentChosen) currentPos + 1 else currentPos).map { itemsMap[it]!! }

@@ -1,0 +1,25 @@
+import kotlin.Boolean;
+
+CREATE TABLE staff (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  name TEXT NOT NULL,
+  color INTEGER NOT NULL,
+  isEnabled INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+selectAll:
+SELECT *
+FROM staff;
+
+insert:
+INSERT INTO staff(name, color, isEnabled)
+VALUES (?, ?, ?);
+
+update:
+UPDATE staff
+SET name = ?, color = ?, isEnabled = ?
+WHERE id = ?;
+
+delete:
+DELETE FROM staff
+WHERE id = ?;

@@ -59,7 +59,7 @@ private fun getContrastingColor(background: Color): Color {
 
 private data class WheelModel(
     val items: List<Member>,
-    val currentId: Int?,
+    val currentId: Long?,
 ) {
     val angleStep: Float = 360f / items.size
     val angles: List<Pair<Float, Float>> by lazy {
@@ -76,7 +76,7 @@ private const val VELOCITY_THRESHOLD_NEXT_LOW = 5000f
 @Composable
 internal fun BoxScope.FortuneWheelPageUI(
     items: List<Member>,
-    currentId: Int?,
+    currentId: Long?,
     onNextTrigger: () -> Unit,
     onNextAnimationFinished: () -> Unit,
 ) {

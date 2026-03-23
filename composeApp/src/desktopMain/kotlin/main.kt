@@ -9,11 +9,13 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import dev.kissed.randomizer.app.App
-import dev.kissed.randomizer.app.di.AppComponentImpl
-import dev.kissed.randomizer.app.di.create
+import dev.kissed.randomizer.app.di.AppComponent
+import dev.kissed.randomizer.app.di.JvmDatabaseFactory
 
 fun main() {
-    val appComponent = AppComponentImpl::class.create()
+    val appComponent = AppComponent.create(
+        sqlDelightDriverFactory = JvmDatabaseFactory()
+    )
 
     application {
         val state: WindowState by remember {
