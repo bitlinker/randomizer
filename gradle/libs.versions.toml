@@ -19,7 +19,6 @@ sqlDelight = "2.3.2"
 copyWebpackPlugin = "9.1.0"
 sqliteWasm = "3.43.2-build1"
 coiServiceworker = "0.1.7"
-settings = "1.3.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -38,7 +37,6 @@ sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.re
 sqlDelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 sqlDelight-js = { module = "app.cash.sqldelight:web-worker-driver", version.ref = "sqlDelight" }
 sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
-russhwolf-settings = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "settings" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
