@@ -1,14 +1,14 @@
 package dev.kissed.randomizer.common.ui
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.toRect
@@ -23,52 +23,54 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.graphics.withSaveLayer
-import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.random.nextInt
 
 @Composable
 internal fun Modifier.glitchEffect(
-    key: Any? = null,
     glitchColors: List<Color>,
-    slices: Int = 20,
+    slices: Int = 25,
+    horizontalDrift: Float = 30F,
+    horizontalSliceDrift: Int = 15,
     isEnabled: Boolean = true,
 ): Modifier {
 
     val graphicsLayer = rememberGraphicsLayer()
-    var step by remember { mutableStateOf(0) }
 
-    LaunchedEffect(key) {
-        Animatable(if (isEnabled) 10f else 0f)
-            .animateTo(
-                targetValue = 0f,
-                animationSpec = tween(
-                    durationMillis = 500,
-                    easing = LinearEasing,
-                )
-            ) {
-                step = this.value.roundToInt()
-            }
-    }
+    val infiniteTransition = rememberInfiniteTransition(label = "glitch_transition")
+    val transitionOffset by infiniteTransition.animateFloat(
+        initialValue = -horizontalDrift,
+        targetValue = horizontalDrift,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glitch_value"
+    )
+
+    val intensity by animateFloatAsState(
+        targetValue = if (isEnabled) 1F else 0F,
+        label = "glitch_intensity"
+    )
 
     return drawWithContent {
-        if (step == 0) {
+        if (intensity == 0F) {
             drawContent()
             return@drawWithContent
         }
         graphicsLayer.record { this@drawWithContent.drawContent() }
 
-        val intensity = step / 10f
         for (i in 0 until slices) {
             translate(
-                left = if (Random.nextInt(5) < step)
-                    Random.nextInt(-20..20).toFloat() * intensity
+                left = if (Random.nextFloat() * 0.5F < intensity)
+                    Random.nextInt(-horizontalSliceDrift..horizontalSliceDrift)
+                        .toFloat() * intensity + transitionOffset
                 else
                     0f
             ) {
                 scale(
                     scaleY = 1f,
-                    scaleX = if (Random.nextInt(10) < step)
+                    scaleX = if (Random.nextFloat() < intensity)
                         1f + (1f * Random.nextFloat() * intensity)
                     else
                         1f
@@ -79,7 +81,7 @@ internal fun Modifier.glitchEffect(
                     ) {
                         layer {
                             drawLayer(graphicsLayer)
-                            if (Random.nextInt(5, 30) < step) {
+                            if (0.5F + Random.nextFloat() * 3F < intensity) {
                                 drawRect(
                                     color = glitchColors.random(),
                                     blendMode = BlendMode.SrcAtop

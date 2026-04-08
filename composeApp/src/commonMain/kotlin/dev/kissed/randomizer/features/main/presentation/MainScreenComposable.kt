@@ -1,15 +1,15 @@
 package dev.kissed.randomizer.features.main.presentation
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import dev.kissed.randomizer.common.ui.AppButton
 import dev.kissed.randomizer.common.ui.ColorViewComposable
 import dev.kissed.randomizer.common.ui.Dimens
@@ -89,8 +90,11 @@ private fun ItemsContent(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.dp16)
+            horizontalArrangement = Arrangement.spacedBy(Dimens.dp20)
         ) {
+            val startInteractionSource = remember { MutableInteractionSource() }
+            val isStartPressed by startInteractionSource.collectIsPressedAsState()
+            val isStartEnabled = (viewState.currentPos ?: 0) < viewState.itemsList.size - 1
             AppButton(
                 text = stringResource(
                     when {
@@ -98,23 +102,27 @@ private fun ItemsContent(
                         else -> Res.string.screen_main_btn_next
                     }
                 ),
-                enabled = (viewState.currentPos ?: 0) < viewState.itemsList.size - 1,
+                interactionSource = startInteractionSource,
+                enabled = isStartEnabled,
                 onClick = { dispatcher(MainScreenViewModel.Action.NextClicked) },
-                modifier = Modifier.glitchEffect(
-                    isEnabled = viewState.currentPos != null,
-                    key = viewState.currentPos,
-                    glitchColors = remember {
-                        listOf(
-                            Color.Cyan,
-                            Color.Yellow,
-                            Color.Magenta
-                        )
-                    }
-                )
+                modifier = Modifier
+                    .zIndex(10F)
+                    .widthIn(min = Dimens.dp120)
+                    .glitchEffect(
+                        isEnabled = isStartEnabled && isStartPressed,
+                        glitchColors = remember {
+                            listOf(
+                                Color.Cyan,
+                                Color.Yellow,
+                                Color.Magenta
+                            )
+                        }
+                    )
             )
             AppButton(
                 text = stringResource(Res.string.screen_main_btn_reset),
                 onClick = { dispatcher(MainScreenViewModel.Action.ResetClicked) },
+                modifier = Modifier.widthIn(min = Dimens.dp120),
             )
         }
 

@@ -10,5 +10,6 @@ internal object Dimens {
     val dp20 = 20.dp
     val dp32 = 32.dp
     val dp80 = 80.dp
+    val dp120 = 120.dp
     val dp150 = 150.dp
 }
