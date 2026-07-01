@@ -1,6 +1,5 @@
 package dev.kissed.randomizer.features.stafflist.presentation
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,16 +9,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.kissed.randomizer.common.ui.ColorViewComposable
@@ -124,17 +127,22 @@ private fun StaffItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Dimens.dp8),
             modifier = Modifier
-                .clickable(
-                    onClick = { dispatcher(StaffScreenAction.ItemClicked(item)) },
+                .toggleable(
+                    value = item.isEnabled,
+                    role = Role.Checkbox,
+                    onValueChange = { dispatcher(StaffScreenAction.ItemEnabledClicked(item)) },
                 )
                 .padding(horizontal = Dimens.dp8)
         ) {
             Checkbox(
                 checked = item.isEnabled,
-                onCheckedChange = { dispatcher(StaffScreenAction.ItemEnabledClicked(item)) }
+                onCheckedChange = null,
             )
             ColorViewComposable(color = Color(item.colorInt))
-            Text(item.name)
+            Text(item.name, modifier = Modifier.weight(1f))
+            IconButton(onClick = { dispatcher(StaffScreenAction.ItemClicked(item)) }) {
+                Icon(Icons.Default.Edit, contentDescription = null)
+            }
         }
     }
 }
