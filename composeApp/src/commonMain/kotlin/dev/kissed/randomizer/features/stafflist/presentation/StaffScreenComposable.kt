@@ -1,5 +1,6 @@
 package dev.kissed.randomizer.features.stafflist.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,10 +12,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -121,23 +122,24 @@ private fun StaffItem(
         modifier = modifier
             .fillMaxSize()
             .padding(start = Dimens.dp16, end = Dimens.dp16, top = Dimens.dp16, bottom = 0.dp)
-            .defaultMinSize(minHeight = Dimens.dp80)
+            .defaultMinSize(minHeight = Dimens.dp80),
+        border = if (item.isEnabled) {
+            BorderStroke(Dimens.dp2, MaterialTheme.colors.primary)
+        } else {
+            null
+        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.dp8),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.dp16),
             modifier = Modifier
                 .toggleable(
                     value = item.isEnabled,
                     role = Role.Checkbox,
                     onValueChange = { dispatcher(StaffScreenAction.ItemEnabledClicked(item)) },
                 )
-                .padding(horizontal = Dimens.dp8)
+                .padding(horizontal = Dimens.dp16)
         ) {
-            Checkbox(
-                checked = item.isEnabled,
-                onCheckedChange = null,
-            )
             ColorViewComposable(color = Color(item.colorInt))
             Text(item.name, modifier = Modifier.weight(1f))
             IconButton(onClick = { dispatcher(StaffScreenAction.ItemClicked(item)) }) {
