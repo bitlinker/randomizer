@@ -5,16 +5,16 @@ android-minSdk = "24"
 android-targetSdk = "36"
 androidx-activityCompose = "1.13.0"
 material-icons = "1.7.3"
-compose-plugin = "1.10.3"
-kotlin = "2.3.20"
+compose-plugin = "1.11.1"
+kotlin = "2.4.0"
 kotlininject = "0.9.0"
-ksp = "2.3.6"
+ksp = "2.3.9"
 hypnoticcanvas = "0.4.1"
-nav3Core = "1.1.0-alpha04"
-kotlinxSerializationCore = "1.10.0"
+nav3Core = "1.1.1"
+kotlinxSerializationCore = "1.11.0"
 compose-multiplatform-lifecycle = "2.10.0"
 jetbrains-viewmodel = "2.10.0"
-kotlinx-coroutines-swing = "1.10.2"
+kotlinx-coroutines-swing = "1.11.0"
 sqlDelight = "2.3.2"
 copyWebpackPlugin = "9.1.0"
 sqliteWasm = "3.43.2-build1"
@@ -22,6 +22,13 @@ coiServiceworker = "0.1.7"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-plugin" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-plugin" }
+compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose-plugin" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-plugin" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-plugin" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-plugin" }
+compose-components-uiToolingPreview = { module = "org.jetbrains.compose.components:components-ui-tooling-preview", version.ref = "compose-plugin" }
 tatarka-kotlininject-compilerksp = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlininject" }
 tatarka-kotlininject-runtimekmp = { module = "me.tatarka.inject:kotlin-inject-runtime-kmp", version.ref = "kotlininject" }
 hypnoticcanvas-core = { module = "com.mikepenz.hypnoticcanvas:hypnoticcanvas", version.ref = "hypnoticcanvas" }
@@ -40,7 +47,7 @@ sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
